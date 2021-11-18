@@ -14,7 +14,7 @@ source:
   '{{ hash_type }}': '{{ hash_value }}'
 
 build:
-  number: 0
+  number: 1
   entry_points:
     - ird = imreg_dft.cli:main
     - ird-tform = imreg_dft.tform:main
