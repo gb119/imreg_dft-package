@@ -1,0 +1,71 @@
+{% set name = "imreg_dft" %}
+{% set version = "2.0.0" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "bd36c17b7a4fd0ddb0821a68c216c9aa449c7fc1d22e7d13f80a129725370645" %}
+
+package:
+  name: '{{ name|lower }}'
+  version: '{{ version }}'
+
+source:
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
+  '{{ hash_type }}': '{{ hash_value }}'
+
+build:
+  number: 0
+  entry_points:
+    - ird = imreg_dft.cli:main
+    - ird-tform = imreg_dft.tform:main
+    - ird-show = imreg_dft.show:main
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  host:
+    - python
+    - setuptools
+    - setuptools >=1.0
+    - numpy >=1.7
+    - scipy >=0.12
+    - pillow
+  run:
+    - python
+    - setuptools >=1.0
+    - numpy >=1.7
+    - scipy >=0.12
+    - pillow
+
+test:
+  imports:
+    - imreg_dft
+  commands:
+    - ird --help
+    - ird-tform --help
+    - ird-show --help
+
+about:
+  home: https://github.com/matejak/imreg_dft
+  license: BSD
+  license_family: BSD
+  license_file: ''
+  summary: Image registration utility using algorithms based on discrete Fourier transform (DFT, FFT)
+  description: "General overview\n================\n\n``imreg_dft`` is your first-choice Python image registration utility.\nIn plain language, it implements means of guessing translation, rotation and\
+    \ scale variation between two images.\nThe name comes from the fact that it doesn't work with those images directly, but it works with their spectrum (DFT using FFT), and its log-polar transformation\
+    \ [1]_, hence the ``_dft`` after ``imreg``.\n\nBasically, if you want to align two images that have different scale and are rotated and shifted against each other, ``imreg_dft`` is the tool you want\
+    \ to check out.\n`Get started <http://pythonhosted.org/imreg_dft/quickstart.html#quickstart>`_ in five minutes and see how it works for you!\n\n:Authors:\n  - `Mat\u011Bj T\xFD\u010D <https://github.com/matejak>`_\
+    \ `PGP public key <https://keyserver.mattrude.com/pks/lookup?op=get&search=0x607524F854FD905F>`_\n  - `Christoph Gohlke <http://www.lfd.uci.edu/~gohlke/>`_\n\n:Organization:\n  - Brno University of\
+    \ Technology, Brno, Czech Republic\n  - Laboratory for Fluorescence Dynamics, University of California, Irvine\n\n:Copyright:\n  - 2014-2015, Mat\u011Bj T\xFD\u010D\n  - 2011-2014, Christoph Gohlke\n\
+    \n.. _requirements:\n \nRequirements\n------------\n\n``imreg_dft`` is `free software <http://en.wikipedia.org/wiki/Free_software>`_, i.e. both free of charge (so it is free as free beer) and you as\
+    \ a user are granted `four basic freedoms <https://www.gnu.org/philosophy/free-sw.html>`_ (so it is also free as free speech).\n\nGenerally, you will need ``numpy`` and ``scipy`` for the algorithm functionality\
+    \ and ``matplotlib`` for plotting.\nFor the command-line tool, reading images is useful, so make sure you have ``pillow`` (or ``PIL``, which is deprecated).\n\nQuickstart\n----------\n\nCheck the documentation\
+    \ on `readthedocs.ort <http://imreg-dft.readthedocs.org/en/latest/quickstart.html>`_ (bleeding-edge) or `pythonhosted.org <http://pythonhosted.org/imreg_dft/quickstart.html>`_ (with images).\nOr even\
+    \ better, generate the documentation yourself! \n\n1. Install the package by running ``python setup.py install`` in the project root.\n#. Install packages that are required for the documentation to\
+    \ compile (see the ``requirements_docs.txt`` file.\n#. Go to the ``doc`` directory and run ``make html`` there.\n   The documentation should appear in the ``_build`` subfolder, so you may open ``_build/html/index.html``\
+    \ with your web browser to see it.\n\nNotes\n-----\n\n``imreg_dft`` is based on the `code <http://www.lfd.uci.edu/~gohlke/code/imreg.py.html>`_ by Christoph Gohlke.\n\nReferences\n----------\n.. [1]\
+    \ An FFT-based technique for translation, rotation and scale-invariant\n    image registration. BS Reddy, BN Chatterji.\n    IEEE Transactions on Image Processing, 5, 1266-1271, 1996"
+  doc_url: ''
+  dev_url: ''
+
+extra:
+  recipe-maintainers: ''
